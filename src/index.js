@@ -1,4 +1,5 @@
 const Telegraf = require('telegraf');
+const { getCtxWeekDay } = require('./utils/index');
 const FRIDAY_STICKER_ID = 'CAADAgADHAADRq-QAvZvsAXDQGS1Ag';
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -9,13 +10,19 @@ bot.start(ctx => {
 });
 
 bot.hears(/пятниц/i, ctx => {
-    let messageDate = new Date(ctx.update.message.date * 1000);
-    if (!spokeThatWeek && messageDate.getDay() <= 5) {
+    if (!spokeThatWeek && getCtxWeekDay(ctx) <= 5) {
         ctx.replyWithSticker(FRIDAY_STICKER_ID);
         ctx.reply('Давайте тусить!');
         spokeThatWeek = true;
     }
 });
 
+bot.on('text', ctx => {
+    if (!spokeThatWeek && getCtxWeekDay(ctx) === 5) {
+        ctx.replyWithSticker(FRIDAY_STICKER_ID);
+        ctx.reply('Настолько скоро, что уже! Го тусить!');
+        spokeThatWeek = true;
+    }
+});
 
 bot.startPolling();
