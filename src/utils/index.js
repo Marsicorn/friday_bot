@@ -1,4 +1,8 @@
-exports.getCtxWeekDay = function(ctx) {
+exports.getMessageWeekDay = function(ctx) {
     let messageDate = new Date(ctx.update.message.date * 1000);
     return messageDate.getDay();
+};
+
+exports.getSenderId = function (ctx) {
+    return ctx.update.message.from.id;
 };
