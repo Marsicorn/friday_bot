@@ -21,8 +21,8 @@ bot.hears(/пя+тни+ц|ч/i, ctx => {
     const chat = CHATS.find(chat => chat.id === getSenderId(ctx));
     if (!chat.offeredPartyThatWeek && getMessageWeekDay(ctx) <= 5) {
         ctx.replyWithSticker(FRIDAY_STICKER_ID);
-        ctx.reply('Давайте тусить!');
         chat.offeredPartyThatWeek = true;
+        return ctx.reply('Давайте тусить!');
     }
 });
 
@@ -30,8 +30,8 @@ bot.on('text', ctx => {
     const chat = CHATS.find(chat => chat.id === getSenderId(ctx));
     if (!chat.offeredPartyThatWeek && getMessageWeekDay(ctx) === 5) {
         ctx.replyWithSticker(FRIDAY_STICKER_ID);
-        ctx.reply('Настолько скоро, что уже! Го тусить!');
         chat.offeredPartyThatWeek = true;
+        return ctx.reply('Настолько скоро, что уже! Го тусить!');
     }
 });
 
