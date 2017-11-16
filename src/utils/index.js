@@ -6,3 +6,7 @@ exports.getMessageWeekDay = function(ctx) {
 exports.getSenderId = function (ctx) {
     return ctx.update.message.from.id;
 };
+
+exports.getStickerId = function(ctx) {
+    return ctx.update.message.sticker.file_id;
+};

@@ -1,6 +1,11 @@
 const Telegraf = require('telegraf');
-const { getMessageWeekDay, getSenderId } = require('./utils/index');
-const FRIDAY_STICKER_ID = 'CAADAgADHAADRq-QAvZvsAXDQGS1Ag';
+const {
+    getMessageWeekDay,
+    getSenderId,
+    getStickerId
+} = require('./utils/index');
+
+const { STICKERS_ID }  = require('./utils/constants');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const CHATS = [];
@@ -20,18 +25,28 @@ bot.start(ctx => {
 bot.hears(/пя+тни+ц|ч/i, ctx => {
     const chat = CHATS.find(chat => chat.id === getSenderId(ctx));
     if (!chat.offeredPartyThatWeek && getMessageWeekDay(ctx) <= 5) {
-        ctx.replyWithSticker(FRIDAY_STICKER_ID);
+        ctx.replyWithSticker(STICKERS_ID.FRIDAY);
         chat.offeredPartyThatWeek = true;
         return ctx.reply('Давайте тусить!');
     }
 });
 
+bot.hears(/ви+н(о+|чи+к|и+шко+)/i, ctx => {
+    ctx.replyWithSticker(STICKERS_ID.WINE);
+});
+
 bot.on('text', ctx => {
     const chat = CHATS.find(chat => chat.id === getSenderId(ctx));
     if (!chat.offeredPartyThatWeek && getMessageWeekDay(ctx) === 5) {
-        ctx.replyWithSticker(FRIDAY_STICKER_ID);
+        ctx.replyWithSticker(STICKERS_ID.FRIDAY);
         chat.offeredPartyThatWeek = true;
         return ctx.reply('Настолько скоро, что уже! Го тусить!');
+    }
+});
+
+bot.on('sticker', ctx => {
+    if (getStickerId(ctx) === STICKERS_ID.FRIDAY) {
+        return ctx.replyWithSticker(STICKERS_ID.BEER);
     }
 });
 
