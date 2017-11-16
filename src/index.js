@@ -31,7 +31,7 @@ bot.hears(/пя+тни+[цч]/i, ctx => {
     }
 });
 
-bot.hears(/ви+н(о+|чи+к|и+шко+)/i, ctx => {
+bot.hears(/ви+н(чи+к|и+шко+)?[оауе]/i, ctx => {
     ctx.replyWithSticker(STICKERS_ID.WINE);
 });
 
