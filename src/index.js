@@ -22,7 +22,7 @@ bot.start(ctx => {
     return ctx.reply('Йоу! Я здесь, чтобы вы не пропустили ни одного викли ретро')
 });
 
-bot.hears(/пя+тни+ц|ч/i, ctx => {
+bot.hears(/пя+тни+[цч]/i, ctx => {
     const chat = CHATS.find(chat => chat.id === getSenderId(ctx));
     if (!chat.offeredPartyThatWeek && getMessageWeekDay(ctx) <= 5) {
         ctx.replyWithSticker(STICKERS_ID.FRIDAY);
